@@ -1,0 +1,13 @@
+roles
+*.retry
+.idea/
+*.pyc
+dumps/
+tests/.vagrant
+*.vault-pw
+tests/*.log
+benchmarks/*/
+*jmeter.log
+*jmeter.results.txt
+run_samples
+jmeter/enva.jmeter.*

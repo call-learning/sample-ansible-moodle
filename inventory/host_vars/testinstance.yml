@@ -1,0 +1,29 @@
+---
+domain_name: "moodle.test"
+# Disable Certbot as it is not possible to make it work on a local network
+
+certbot_enabled: false
+
+# Moodle
+moodle_version: "MOODLE_39_STABLE"
+moodle_git_url: "https://github.com/moodle/moodle.git"
+
+# Moodle admin details
+moodle_site_admin:
+  username: "admin"
+  email: "laurent@call-learning.fr"
+  password: "ThePassword%@U"
+
+moodle_domain_name: "{{ domain_name }}"
+moodle_is_https: yes
+
+moodle_extra_conf: []
+
+# Specific database settings - will create user and database if they don't exist
+moodle_database:
+  dbtype: "mariadb"
+  dbhost: "localhost"
+  dbname: "testmoodle"
+  dbuser: "testmoodle"
+  dbpass: "password"
+  dbprefix: "mdl_"

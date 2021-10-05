@@ -1,0 +1,27 @@
+---
+
+apache_vhosts:
+    - servername: "{{ moodle_domain_name }}"
+      serveralias: "www.{{ moodle_domain_name }}"
+      documentroot: "{{ moodle_src_path }}"
+      extra_parameters: |
+        <FilesMatch \.php$>
+          SetHandler "proxy:fcgi://{{ php_fpm_listen }}"
+        </FilesMatch>
+
+apache_vhosts_with_ssl_redirect:
+  - servername: "{{ moodle_domain_name }}"
+    serveralias: "www.{{ moodle_domain_name }}"
+    documentroot: "{{ moodle_src_path }}"
+    # https://www.digitalocean.com/community/tutorials/how-to-redirect-www-to-non-www-with-apache-on-ubuntu-14-04
+    # Remember that the www.xxxyyy.fr is first accessed when typing the url
+    extra_parameters: |
+        <FilesMatch \.php$>
+          SetHandler "proxy:fcgi://{{ php_fpm_listen }}"
+        </FilesMatch>
+        <IfModule mod_rewrite.c>
+          RewriteEngine On
+          RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
+          RewriteRule ^ http://%1%{REQUEST_URI} [L,R=301]
+          RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+        </IfModule>

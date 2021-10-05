@@ -1,0 +1,22 @@
+---
+
+- src: geerlingguy.repo-remi
+  version: 1.2.0
+- src: geerlingguy.ntp
+- src: geerlingguy.apache
+  version: 3.1.4
+- src: geerlingguy.php-versions
+  version: 5.0.0
+- src: geerlingguy.apache-php-fpm
+  version: 1.1.0
+- src: geerlingguy.apache-php-fpm
+  version: 1.1.0
+- src: https://github.com/call-learning/ansible-role-php.git
+  version: laurentd/opcache-full-options  # 4.2.0
+- src: geerlingguy.php-mysql
+- src: geerlingguy.git
+  version: 3.0.0
+- src: geerlingguy.composer
+  version: 1.9.0
+- src: https://github.com/call-learning/ansible-role-moodle.git
+  name: call-learning.moodle

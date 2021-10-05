@@ -1,0 +1,33 @@
+---
+dbengine: mysql
+
+php_enable_webserver: false
+php_version: '7.4'
+php_enable_php_fpm: true
+php_fpm_listen: "127.0.0.1:9000"
+mysql_python_package_debian: python3-mysqldb
+
+apache_mods_enabled:
+  - expires.load
+  - ssl.load
+  - rewrite.load
+  - proxy.load
+  - proxy_fcgi.load
+apache_remove_default_vhost: true
+apache_remove_default_vhost: true
+apache_create_vhosts: true
+
+# This is essential for certbot mode for example as it will not create the
+# vhost as long as the files in the vhost_ssh.certificate_key_file exist
+apache_ignore_missing_ssl_certificate: false
+
+certbot_create_standalone_stop_services:
+  - apache2
+
+certbot_admin_email: laurent@call-learning.fr
+certbot_create_if_missing: true
+certbot_auto_renew_user: root
+certbot_auto_renew_minute: "20"
+certbot_auto_renew_hour: "12"
+certbot_create_method: standalone
+certbot_auto_renew_options: "--quiet --no-self-upgrade --pre-hook \"systemctl stop apache2\" --post-hook \"systemctl start apache2\""
