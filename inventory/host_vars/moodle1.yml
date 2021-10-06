@@ -1,9 +1,5 @@
 ---
 domain_name: "moodle1.call-learning.io"
-# Disable Certbot as it is not possible to make it work on a local network
-
-certbot_enabled: false
-
 # Moodle
 moodle_version: "MOODLE_39_STABLE"
 moodle_git_url: "https://github.com/moodle/moodle.git"
@@ -21,13 +17,14 @@ moodle_site_admin:
           6361
 
 moodle_domain_name: "{{ domain_name }}"
-moodle_is_https: yes
+moodle_is_https: true
+certbot_enabled: true
 
 moodle_extra_conf: []
 
 # Specific database settings - will create user and database if they don't exist
 moodle_database:
-  dbtype: "mariadb"
+  dbtype: "mysqli"
   dbhost: "localhost"
   dbname: "testmoodle"
   dbuser: "testmoodle"

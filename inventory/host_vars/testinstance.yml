@@ -12,10 +12,10 @@ moodle_git_url: "https://github.com/moodle/moodle.git"
 moodle_site_admin:
   username: "admin"
   email: "laurent@call-learning.fr"
-  password: "ThePassword%@U"
+  password: "TheP3ssword%@U"
 
 moodle_domain_name: "{{ domain_name }}"
-moodle_is_https: yes
+moodle_is_https: no
 
 moodle_extra_conf: []
 

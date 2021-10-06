@@ -1,0 +1,16 @@
+---
+
+- name: Certbot- Set Facts
+  set_fact:
+    certbot_certs:
+      - email: "{{ certbot_admin_email }}"
+        domains:
+          - "{{ certbot_domain_name }}"
+- name: Certbot- Gather the package facts
+  package_facts:
+    manager: auto
+# This runs certbot again with certbot_create_if_missing
+- name: Certbot - Install
+  include_role:
+    name: geerlingguy.certbot
+  when: moodle_is_https| bool and certbot_enabled is defined and certbot_enabled|bool

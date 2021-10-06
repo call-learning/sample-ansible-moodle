@@ -1,0 +1,48 @@
+---
+# This script must be run once so to setup Ansible user on the server
+
+# !!! This will delete the original remote user !!!
+# First make sure we have an ansible user ready in all instances except bastion
+- hosts: all:!bastion
+  vars:
+    ansible_user: "{{ original_remote_user }}"
+  tasks:
+    - include: tasks/setup-ansible-user.yml
+      become: true
+      ignore_errors: yes # So like this we can run the playbook several times
+      tags: ["bootstrap-user"]
+
+# Then we will do the same with Bastion
+- hosts: bastion
+  vars:
+    ansible_user: "{{ original_remote_user }}"
+  tasks:
+    - include: tasks/setup-ansible-user.yml
+      become: true
+      ignore_errors: yes # So like this we can run the playbook several times
+      tags: ["bootstrap-user"]
+
+# At this point only ansible is able to login and sudo
+# First make sure we have an ansible user ready
+- hosts: all
+  gather_facts: false
+  become: true
+  vars_prompt:
+    - name: remove_existing
+      prompt: "We will now terminate the boostrap process. \
+          For this we need to remove the original remote user (debian for example). Are you sure ? [yes|no]"
+      private: no
+  tasks:
+    - name: Assert we agreed to remove user
+      assert:
+        that:
+          - remove_existing == 'yes'
+        msg: "You should agree to remove the original user {{ original_remote_user }} to proceed"
+    # Specifics here for openstack/ovh
+    - name: Remove possible other Sudoers (Debian cloud init)
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - /etc/sudoers.d/90-cloud-init-users
+        - "/etc/sudoers.d/{{ original_remote_user }}-cloud-init"

@@ -11,3 +11,4 @@ benchmarks/*/
 *jmeter.results.txt
 run_samples
 jmeter/enva.jmeter.*
+openrc.sh

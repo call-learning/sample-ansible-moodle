@@ -1,0 +1,33 @@
+---
+
+- debug:
+    msg: "Bootstrapping {{ ansible_host }} by creating an ansible user"
+
+- name: Deduce local public key name from private
+  set_fact:
+    ssh_public_key_file: "{{ ansible_ssh_private_key_file + '.pub'}}"
+  when: ssh_public_key_file is not defined
+- name: Add or update user called ansible to {{ ansible_host }}
+  user:
+    name: ansible
+    shell: /bin/bash
+    password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') | password_hash('sha512') }}"
+- name: Set authorized key taken from file
+  authorized_key:
+    user: ansible
+    state: present
+    # We assume here that the public key is privatekeyname.pub
+    key: "{{ lookup('file',  ssh_public_key_file ) }}"
+- name: Add ansible user accounts to passwordless sudoers (Generic)
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^ansible'
+    line: 'ansible ALL=(ALL) NOPASSWD: ALL'
+    state: present
+    validate: 'visudo -cf %s'
+  when: ansible_os_family == 'Redhat'
+- name: Add ansible user to the sudoers (Ubuntu 18.04 + Debian)
+  copy:
+    dest: "/etc/sudoers.d/ansible"
+    content: "ansible  ALL=(ALL)  NOPASSWD: ALL"
+  when: ansible_os_family == 'Debian'

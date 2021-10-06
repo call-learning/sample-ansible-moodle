@@ -1,0 +1,62 @@
+---
+
+- hosts: webserver
+  become: true
+  vars_files:
+    - vars/webserver.yml
+  pre_tasks:
+    - name: Import Moodle PHP Setup role to set the web server config
+      import_role:
+        name: call-learning.moodle
+        tasks_from: phpsql-setup
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+    - name: Setup Certbot
+      include_tasks: tasks/setup_certbot.yml
+      vars:
+        certbot_domain_name: "{{ moodle_domain_name }}"
+    - name: Set the cert_crt_file_path if it is not defined (Certbot)
+      set_fact:
+        cert_crt_file_path: "/etc/letsencrypt/live/{{ moodle_domain_name }}/fullchain.pem"
+        cert_key_file_path: "/etc/letsencrypt/live/{{ moodle_domain_name }}/privkey.pem"
+      when: certbot_enabled is defined and certbot_enabled|bool
+    - name: Update the vhost with actual SSL certificates
+      set_fact:
+        apache_vhosts_ssl: "{{ (apache_vhosts_ssl | default([])) + [
+        item | combine ({ 'certificate_file': cert_crt_file_path,
+                          'certificate_key_file': cert_key_file_path })
+        ] }}"
+      with_items: "{{ apache_vhosts }}"
+      when:  moodle_is_https| bool and certbot_enabled is defined and certbot_enabled|bool
+    - name: Add https redirect
+      set_fact:
+        apache_vhosts: "{{ (apache_vhosts | default([])) + [{
+          'servername': item.servername,
+          'serveralias':  item.serveralias,
+          'documentroot' : item.documentroot,
+          'extra_parameters': vhost_redirect_ssl
+           }] }}"
+      with_items: "{{ apache_vhosts }}"
+      when: moodle_is_https| bool and certbot_enabled is defined and certbot_enabled|bool
+  roles:
+    # Then apache
+    - geerlingguy.apache
+    - name: geerlingguy.repo-remi
+      when: ansible_os_family == 'RedHat'
+    - geerlingguy.php-versions
+    - geerlingguy.php
+    # Then PHP Database libraries
+    - name: geerlingguy.php-mysql
+    # Other dependencies such as composer
+    - name: geerlingguy.composer
+    - name: geerlingguy.git
+    - name: geerlingguy.certbot
+      when: certbot_enabled is defined and certbot_enabled|bool
+    - name: call-learning.moodle
+  post_tasks:
+    - name: Restart Apache
+      command: /bin/true
+      notify:
+        - restart apache
+      changed_when: False

@@ -7,10 +7,10 @@ build an inventory based your infrastructure.
 
     ansible-vault encrypt_string '12345ABCD' --name 'dbpass'
 
-## Voir les mots de passe en clair
+## See the password that have been encrypted
 
     ansible -l <servername> -m debug -a "var=mysql_users" all
 
-## Appliquer les changements sur un serveur
+## Apply changes
 
     ansible-playbook -l <servername> playbook.yml
