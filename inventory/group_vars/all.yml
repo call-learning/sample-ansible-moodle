@@ -14,7 +14,6 @@ apache_mods_enabled:
   - proxy.load
   - proxy_fcgi.load
 apache_remove_default_vhost: true
-apache_remove_default_vhost: true
 apache_create_vhosts: true
 
 # This is essential for certbot mode for example as it will not create the

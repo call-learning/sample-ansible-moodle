@@ -29,4 +29,4 @@
     - name: geerlingguy.composer
     - name: geerlingguy.git
     - name: geerlingguy.certbot
-    - name: ansible-role-moodle
+    - name: call-learning.moodle
