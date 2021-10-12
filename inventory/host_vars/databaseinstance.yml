@@ -1,0 +1,9 @@
+---
+# Specific database settings - will create user and database if they don't exist
+moodle_database:
+  dbtype: "mysqli"
+  dbhost: "localhost"
+  dbname: "testmoodle"
+  dbuser: "testmoodle"
+  dbpass: "password"
+  dbprefix: "mdl_"

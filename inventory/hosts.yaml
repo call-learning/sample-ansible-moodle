@@ -11,13 +11,10 @@ all:
     ansible_ssh_private_key_file: "~/.ssh/id_imt_training_rsa"
   hosts:
     moodle1:
-    testinstance:
   children:
     webserver:
       hosts:
         moodle1:
-        testinstance:
     database:
       hosts:
         moodle1:
-        testinstance:
