@@ -1,0 +1,32 @@
+---
+domain_name: "moodle40.call-learning.io"
+# Moodle
+moodle_version: "master"
+moodle_git_url: "https://github.com/moodle/moodle"
+
+# Moodle admin details
+moodle_site_admin:
+  username: "admin"
+  email: "laurent@call-learning.fr"
+  password: !vault |
+          $ANSIBLE_VAULT;1.2;AES256;calllearning
+          32373732656235306139386362363265363262643636393932646264346434656662333937623839
+          3765633037643935633430396263653133643333613662340a366461653338383234653838376663
+          64376232373730333635616366323536393438663263313639666536373262346566313464356132
+          6335313133393263610a353539666332363136323135613065623862356136336633643031613866
+          6638
+
+moodle_domain_name: "{{ domain_name }}"
+moodle_is_https: true
+certbot_enabled: true
+
+moodle_extra_conf: []
+
+# Specific database settings - will create user and database if they don't exist
+moodle_database:
+  dbtype: "mysqli"
+  dbhost: "localhost"
+  dbname: "testmoodle"
+  dbuser: "testmoodle"
+  dbpass: "password"
+  dbprefix: "mdl_"

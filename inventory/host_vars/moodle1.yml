@@ -1,8 +1,8 @@
 ---
 domain_name: "moodle1.call-learning.io"
 # Moodle
-moodle_version: "MOODLE_39_STABLE"
-moodle_git_url: "https://github.com/moodle/moodle.git"
+moodle_version: "sample/39_with_modules"
+moodle_git_url: "https://github.com/call-learning/sample-mooodle"
 
 # Moodle admin details
 moodle_site_admin:

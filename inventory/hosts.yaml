@@ -15,6 +15,8 @@ all:
     webserver:
       hosts:
         moodle1:
+        moodle40:
     database:
       hosts:
         moodle1:
+        moodle40:
