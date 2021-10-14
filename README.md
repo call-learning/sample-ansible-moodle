@@ -14,3 +14,7 @@ build an inventory based your infrastructure.
 ## Apply changes
 
     ansible-playbook -l <servername> playbook.yml
+
+## Just update code
+
+    ansible-playbook -l moodle1 webserver-tools.yml --tags "task-updatecode"

@@ -1,0 +1,35 @@
+---
+# Moodle
+moodle_version: "sample/39_with_modules"
+moodle_git_url: "https://github.com/call-learning/sample-mooodle"
+
+# Moodle admin details
+moodle_site_admin:
+  username: "admin"
+  email: "laurent@call-learning.fr"
+  password: !vault |
+          $ANSIBLE_VAULT;1.2;AES256;calllearning
+          33346536643531376231326232316364663538386562383335363533656536323238636663613663
+          3834663833363165643661663731326535613364666666370a663938383763346231663263363263
+          36626135316639633634613663613263656264306666396431336530646133373636613032626133
+          6435343036656438330a373331616638643534366266616266363637383936646236383161353434
+          6361
+
+domain_name: "moodle1.call-learning.io"
+moodle_domain_name: "{{ domain_name }}"
+moodle_is_https: true
+certbot_enabled: true
+
+# Specific database settings - will create user and database if they don't exist
+moodle_database:
+  dbtype: "mysqli"
+  dbhost: "localhost"
+  dbname: "testmoodle"
+  dbuser: "testmoodle"
+  dbpass: "password"
+  dbprefix: "mdl_"
+
+moodle_extra_conf:
+  - {name: "phpunit_prefix", value: "'_phpunit'"}
+  - {name: "phpunit_dbname", value: "'{{ moodle_database.dbname }}_phpunit'"}
+  - {name: "phpunit_dataroot", value: "'{{ moodle_sitedata.shared_data_folder }}/{{ moodle_sitedata.data_dir_name }}_phpunit'"}

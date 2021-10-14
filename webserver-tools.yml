@@ -1,0 +1,21 @@
+---
+
+- hosts: webserver
+  become: true
+  vars_files:
+    - vars/webserver.yml
+  vars:
+    git_key_file: "{{ moodle_local_git_deploy_key_content|default(False) | ternary('/var/www/.ssh/deploy_key', '') }}"
+  tasks:
+    - name: Ansible Role Moodle Tools
+      import_role:
+        name: call-learning.moodle
+        tasks_from: tools
+      vars:
+        moodle_git_key_file: "{{ git_key_file }}"
+    - name: Restart Apache
+      command: /bin/true
+      notify:
+        - restart apache
+      changed_when: False
+      tags: ['never', 'task-restartapache']

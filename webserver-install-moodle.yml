@@ -1,0 +1,15 @@
+---
+
+- hosts: webserver
+  become: true
+  vars_files:
+    - vars/webserver.yml
+  roles:
+    - name: call-learning.moodle
+  post_tasks:
+    - name: Restart Apache
+      command: /bin/true
+      notify:
+        - restart apache
+      changed_when: False
+
