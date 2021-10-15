@@ -18,3 +18,8 @@ build an inventory based your infrastructure.
 ## Just update code
 
     ansible-playbook -l moodle1 webserver-tools.yml --tags "task-updatecode"
+
+## Run a command on all hosts
+
+    ansible  all -m shell -a 'hostname'
+    ansible  all   -a "/sbin/reboot" --become
