@@ -1,6 +1,6 @@
 ---
 
-plugin: openstack
+plugin: openstack.cloud.openstack
 private: true # This seems to be the only way to set ansible_host to the right value here
 compose:
   host_private_ip: "openstack.private_v4"

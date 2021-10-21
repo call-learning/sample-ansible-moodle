@@ -1,3 +1,4 @@
 ---
 domain_name: "moodle9.call-learning.io"
 moodle_domain_name: "{{ domain_name }}"
+moodle_version: "sample/311_with_modules"
