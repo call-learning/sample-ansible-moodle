@@ -21,7 +21,7 @@ moodle_extra_conf: []
 
 # Specific database settings - will create user and database if they don't exist
 moodle_database:
-  dbtype: "mariadb"
+  dbtype: "mysqli"
   dbhost: "localhost"
   dbname: "testmoodle"
   dbuser: "testmoodle"

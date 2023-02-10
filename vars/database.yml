@@ -12,3 +12,11 @@ mysql_users:
     priv: "{{ moodle_database.dbname }}.*:ALL"
     encrypted: false
 database_server_host: "{{ domain_name }}"
+mysql_bind_address: '127.0.0.1'
+
+postgresql_databases:
+  - name: "{{ moodle_database.dbname }}"
+    owner: "{{ moodle_database.dbuser }}"
+postgresql_users:
+  - name: "{{ moodle_database.dbuser }}"
+    password: "{{ moodle_database.dbpass }}"

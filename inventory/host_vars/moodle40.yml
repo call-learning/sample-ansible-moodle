@@ -1,7 +1,7 @@
 ---
 domain_name: "moodle40.call-learning.io"
 # Moodle
-moodle_version: "master"
+moodle_version: "MOODLE_400_STABLE"
 moodle_git_url: "https://github.com/moodle/moodle"
 
 # Moodle admin details
