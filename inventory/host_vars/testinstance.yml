@@ -5,7 +5,7 @@ domain_name: "moodle.test"
 certbot_enabled: false
 
 # Moodle
-moodle_version: "MOODLE_41_STABLE"
+moodle_version: "MOODLE_401_STABLE"
 moodle_git_url: "https://github.com/moodle/moodle.git"
 
 # Moodle admin details
