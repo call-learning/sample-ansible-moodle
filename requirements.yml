@@ -14,3 +14,4 @@
 - src: geerlingguy.certbot
 - src: https://github.com/call-learning/ansible-role-moodle.git
   name: call-learning.moodle
+  version: laurent/fix-ci

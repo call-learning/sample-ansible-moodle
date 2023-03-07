@@ -6,4 +6,8 @@
     - vars/database.yml
   roles:
     # Database install
-    - name: geerlingguy.mysql
+    - role: geerlingguy.mysql
+      when: dbengine == 'mysql'
+    - role: geerlingguy.postgresql
+      when: dbengine == 'postgres'
+

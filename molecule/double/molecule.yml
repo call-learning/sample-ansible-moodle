@@ -7,28 +7,7 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: frontendinstance
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2004}-ansible:latest"
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
-    pre_build_image: true
-    groups:
-      - webserver
-    networks:
-      - name: testnet
-    network_mode: bridge
-    exposed_ports:
-      - 443/tcp
-      - 80/tcp  # For internal network
-    published_ports:
-      - 0.0.0.0:80:80/tcp
-      - 0.0.0.0:443:443/tcp
-    purge_networks: true
-    etc_hosts:
-      "${INSTANCE_DOMAIN_NAME:-ansible1.call-learning.io}" : "127.0.0.1"
-  - name: databaseinstance
+   - name: testinstancepsql
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2004}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
@@ -37,15 +16,8 @@ platforms:
     pre_build_image: true
     groups:
       - database
-    networks:
-      - name: testnet
-    network_mode: bridge
-    exposed_ports:
-      - 3306/tcp
-    purge_networks: true
-    port_bindings:
-      80: 80
-      443: 443
+      - webserver
+    etc_hosts: "{'moodle.test':  '127.0.0.1'}"
 provisioner:
   name: ansible
   env:

@@ -1,4 +1,5 @@
 ---
+dbengine: postgres
 domain_name: "moodle.test"
 # Disable Certbot as it is not possible to make it work on a local network
 
@@ -21,7 +22,7 @@ moodle_extra_conf: []
 
 # Specific database settings - will create user and database if they don't exist
 moodle_database:
-  dbtype: "mysqli"
+  dbtype: "pgsql"
   dbhost: "localhost"
   dbname: "testmoodle"
   dbuser: "testmoodle"

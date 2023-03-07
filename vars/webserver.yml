@@ -53,3 +53,5 @@ apache_vhost_ssl:
       <FilesMatch \.php$>
         SetHandler "proxy:fcgi://{{ php_fpm_listen }}"
       </FilesMatch>
+
+php_max_input_vars: "5000"
